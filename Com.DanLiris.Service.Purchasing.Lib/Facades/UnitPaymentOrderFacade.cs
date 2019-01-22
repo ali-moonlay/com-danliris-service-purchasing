@@ -45,6 +45,7 @@ namespace Com.DanLiris.Service.Purchasing.Lib.Facades
             Query = Query.Select(s => new UnitPaymentOrder
             {
                 Id = s.Id,
+                Position = s.Position,
                 DivisionId = s.DivisionId,
                 DivisionCode = s.DivisionCode,
                 DivisionName = s.DivisionName,
@@ -402,6 +403,7 @@ namespace Com.DanLiris.Service.Purchasing.Lib.Facades
             Query = Query.Select(s => new UnitPaymentOrder
             {
                 Id = s.Id,
+                Position = s.Position,
                 DivisionId = s.DivisionId,
                 DivisionCode = s.DivisionCode,
                 DivisionName = s.DivisionName,

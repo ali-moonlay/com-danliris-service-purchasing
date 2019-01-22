@@ -37,8 +37,8 @@ namespace Com.DanLiris.Service.Purchasing.Test.Facades.PurchasingDocumentExpedit
         {
             PurchasingDocumentExpedition model = await DataUtil.GetTestData();
             List<string> unitPaymentOrders = new List<string>() { model.UnitPaymentOrderNo };
-            var Response = this.Facade.GetReport(unitPaymentOrders);
-            Assert.NotEqual(Response.Count, 0);
+            var Response = this.Facade.GetReport(model.UnitPaymentOrderNo, model.SupplierCode, model.DivisionCode, model.UPODate.AddDays(-1), model.UPODate.AddDays(1), (int)model.Position, 1, 25);
+            Assert.NotNull(Response);
         }
     }
 }

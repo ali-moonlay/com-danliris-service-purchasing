@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using Com.DanLiris.Service.Purchasing.Lib.ViewModels.Expedition;
 using Com.DanLiris.Service.Purchasing.WebApi.Helpers;
 using Com.DanLiris.Service.Purchasing.Lib.Facades.Expedition;
+using Com.DanLiris.Service.Purchasing.Lib.Helpers.ReadResponse;
 
 namespace Com.DanLiris.Service.Purchasing.WebApi.Controllers.v1.Expedition
 {
@@ -26,14 +27,22 @@ namespace Com.DanLiris.Service.Purchasing.WebApi.Controllers.v1.Expedition
         }
 
         [HttpGet]
-        public ActionResult Get([Bind(Prefix = "unitPaymentOrders[]")] List<string> unitPaymentOrders)
+        public ActionResult Get(string no, string supplierCode, string divisionCode, DateTimeOffset? dateFrom = null, DateTimeOffset? dateTo = null, int? status = null, int page = 1, int size = 25)
         {
-            List<PurchasingDocumentExpeditionReportViewModel> Data = this.purchasingDocumentExpeditionReportFacade.GetReport(unitPaymentOrders);
+            ReadResponse<PurchasingDocumentExpeditionReportViewModel> Data = this.purchasingDocumentExpeditionReportFacade.GetReport(no, supplierCode, divisionCode, dateFrom, dateTo, status, page, size);
 
             return Ok(new
             {
                 apiVersion = ApiVersion,
-                data = Data,
+                data = Data.Data,
+                info = new Dictionary<string, object>
+                {
+                    { "count", Data.Data.Count },
+                    { "total", Data.TotalData },
+                    { "order", Data.Order },
+                    { "page", page },
+                    { "size", size }
+                },
                 message = General.OK_MESSAGE,
                 statusCode = General.OK_STATUS_CODE
             });
